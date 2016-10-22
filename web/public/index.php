@@ -5,6 +5,7 @@ try {
     //Register an autoloader
     $loader = new \Phalcon\Loader();
     $loader->registerDirs(array(
+        '../app/core',
         '../app/controllers/',
         '../app/models/'
     ))->register();
@@ -20,10 +21,17 @@ try {
     });
 
     //Setup a base URI so that all generated URIs include the "tutorial" folder
-    $di->set('url', function(){
-        $url = new \Phalcon\Mvc\Url();
-        $url->setBaseUri('/tutorial/');
-        return $url;
+    // $di->set('url', function(){
+    //     $url = new \Phalcon\Mvc\Url();
+    //     $url->setBaseUri('/tutorial/');
+    //     return $url;
+    // });
+
+    //Setup the router component
+    $di->set('router', function(){
+        $router = new Router();
+        $router->handle();
+        return $router;
     });
 
     //Handle the request
