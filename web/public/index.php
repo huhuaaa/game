@@ -30,8 +30,23 @@ try {
     //Setup the router component
     $di->set('router', function(){
         $router = new Router();
-        $router->handle();
         return $router;
+    });
+
+
+    //Isolating the session data
+    $di->set('session', function(){
+
+        //All variables created will prefixed with "my-game-web"
+        $session = new Phalcon\Session\Adapter\Files(
+            Array(
+                'uniqueId' => 'my-game-web'
+            )
+        );
+
+        $session->start();
+
+        return $session;
     });
 
     //Handle the request

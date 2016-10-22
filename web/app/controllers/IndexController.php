@@ -2,9 +2,9 @@
 /**
  * 默认控制器
  */
-class IndexController extends \Phalcon\Mvc\Controller{
+class IndexController extends Controller{
     /**
-     * 默认页面
+     * 首页
      */
     public function indexAction(){
         echo '<h1>Hello!</h1>';
