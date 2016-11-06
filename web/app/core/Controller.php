@@ -41,7 +41,7 @@ class Controller extends \Phalcon\Mvc\Controller{
      */
     protected function ajaxCheckLogin(){
         if(!$this->session->has('loginUser')){
-            $this->ajaxOutput(Array(), -200, 'need login!');
+            $this->ajaxOutput(Array(), AjaxCode::NOLOGIN, 'need login!');
         }
     }
 

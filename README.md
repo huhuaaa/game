@@ -45,7 +45,7 @@ server{
 
 ```
 
-### 站点核心
+### Core
 
 >核心基类文件都放在`web/app/core/`目录下，主要有控制器基类`controller`、路由声明类`Router`...
 

@@ -68,5 +68,13 @@ class Router extends \Phalcon\Mvc\Router{
                 'namespace' => 'ajax'
             )
         );
+
+        $this->add('/ajax/:controller/:action',
+            Array(
+                'controller' => 1,
+                'action' => 2,
+                'namespace' => 'ajax'
+            )
+        );
     }
 }

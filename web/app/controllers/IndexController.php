@@ -7,6 +7,9 @@ class IndexController extends Controller{
      * 首页
      */
     public function indexAction(){
+        echo UserModel::createUserid();
+        $user = UserModel::findFirst(1);
+        var_dump($user);
         echo '<h1>Hello!</h1>';
     }
 
