@@ -1,0 +1,13 @@
+.register-container {
+  padding: 20px 0;
+}
+.register-container .input-group {
+  width: 100%;
+  margin: 15px 0;
+}
+.register-container .input-group input.form-control {
+  width: 100%;
+}
+.register-container .input-group .btn {
+  width: 100%;
+}

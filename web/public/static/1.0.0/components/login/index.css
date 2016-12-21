@@ -1,0 +1,13 @@
+.login-container {
+  padding: 20px 0;
+}
+.login-container .input-group {
+  width: 100%;
+  margin: 15px 0;
+}
+.login-container .input-group input.form-control {
+  width: 100%;
+}
+.login-container .input-group .btn {
+  width: 100%;
+}

@@ -8,25 +8,35 @@ class RegisterController extends \Controller {
     public function postAction(){
         $username = $this->request->getPost('username');
         $password = $this->request->getPost('password');
-        $nickname = $this->request->getPost('nickname');
+        // $nickname = $this->request->getPost('nickname');
+        $nickname = $username;
         $auth = $this->request->getPost('auth');
         $success = FALSE;
+        $msg = '';
         if($auth == $this->session->get('registerAuth')){
             if(preg_match_all('/^[a-z]([0-9a-z_]{3,19})$/', $username)){
-                if(strlen($password) > 6){
-                    $user = new UserModel();
+                if(strlen($password) > 5){
+                    $user = new \UserModel();
                     $user->username = $username;
-                    $salt = UserModel::createSalt();
+                    $user->id = \UserModel::createUserid();
+                    $salt = \UserModel::createSalt();
                     $user->setPassword(md5($salt.$password.$salt));
                     $user->salt = $salt;
                     $user->nickname = $nickname;
                     if($user->save()){
                         $success = TRUE;
+                        $this->setLoginUser($user);
+                    }else{
+                        $msg = '注册失败，请重试！';
                     }
+                }else{
+                    $msg = '密码长度不符合要求！';
                 }
+            }else{
+                $msg = '用户名不合法！';
             }
         }
-        $this->ajaxOutput(NULL, !$success ? \AjaxCode::FAILED: \AjaxCode::SUCCESS);
+        $this->ajaxOutput(NULL, !$success ? \AjaxCode::FAILED: \AjaxCode::SUCCESS, $msg);
     }
 
     /**

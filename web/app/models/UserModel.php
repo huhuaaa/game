@@ -3,7 +3,7 @@ use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class UserModel extends Phalcon\Mvc\Model {
 
-    public $id; //用户ID
+    protected $id; //用户ID
     public $username;
     protected $password; //密码加密串
     public $salt; //密码混淆加密串
@@ -31,6 +31,20 @@ class UserModel extends Phalcon\Mvc\Model {
     }
 
     /**
+     * 转化为数组(保护敏感信息)
+     *
+     */
+    public function toArray($columns = NULL){
+        $arr = parent::toArray($columns);
+        unset($arr['id']);
+        // unset($arr['username']);
+        unset($arr['salt']);
+        unset($arr['password']);
+        unset($arr['isdelete']);
+        return $arr;
+    }
+
+    /**
      * 获取密码方法，密码属性为私有
      */
     public function getPassword(){
@@ -46,7 +60,7 @@ class UserModel extends Phalcon\Mvc\Model {
      * 生成用户ID
      */
     public static function createUserid(){
-        return md5(uniqid(TRUE, MacId));
+        return md5(uniqid(TRUE, MacId).uniqid());
     }
 
     /**

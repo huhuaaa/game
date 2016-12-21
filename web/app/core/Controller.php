@@ -7,6 +7,7 @@ class Controller extends \Phalcon\Mvc\Controller{
     protected function initialize(){
         // echo 1;
     }
+    
     /**
      * 获取当前登陆用户，SESSION
      */
@@ -19,7 +20,7 @@ class Controller extends \Phalcon\Mvc\Controller{
      */
     protected function setLoginUser($user = NULL){
         if($user){
-            $this->session->set('loginUser', $user);
+            $this->session->set('loginUser', $user->toArray(Array('nickname', 'integral', 'cash')));
         }else{
             $this->session->remove('loginUser');
         }
@@ -27,10 +28,17 @@ class Controller extends \Phalcon\Mvc\Controller{
     }
 
     /**
+     * 当前是否已经登录
+     */
+    protected function isLogin(){
+        return $this->session->has('loginUser');
+    }
+
+    /**
      * 检验登陆，未登陆则跳转到登陆页面
      */
     protected function checkLogin(){
-        if(!$this->session->has('loginUser')){
+        if(!$this->isLogin()){
             $this->response->redirect('/login');
         }
         return $this;
@@ -40,8 +48,8 @@ class Controller extends \Phalcon\Mvc\Controller{
      * 检验登陆，用于ajax请求，未登陆则返回未登录的状态信息
      */
     protected function ajaxCheckLogin(){
-        if(!$this->session->has('loginUser')){
-            $this->ajaxOutput(Array(), AjaxCode::NOLOGIN, 'need login!');
+        if(!$this->isLogin()){
+            $this->ajaxOutput(Array(), AjaxCode::NOLOGIN, '请先登录！');
         }
     }
 
@@ -60,6 +68,7 @@ class Controller extends \Phalcon\Mvc\Controller{
      * @return $this
      */
     protected function ajaxOutput($data = Array(), $code = 0, $msg = ''){
+        $this->response->setRawHeader('Content-Type: text/json');
         $this->response->setJsonContent(Array(
             'data' => $data,
             'code' => $code,

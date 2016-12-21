@@ -66,9 +66,9 @@ try {
     echo $application->handle()->getContent();
 
 } catch(\Phalcon\Exception $e) {
-    //  echo "PhalconException: ", $e->getMessage(););
+    echo "PhalconException: ".$e->getMessage();
     // put error to log, and redirect to 404
-    $response = new Phalcon\Http\Response();
-    $response->redirect('/404.html');
-    $response->send();
+    // $response = new Phalcon\Http\Response();
+    // $response->redirect('/404.html');
+    // $response->send();
 }
