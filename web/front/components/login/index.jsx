@@ -10,7 +10,8 @@ import MD5 from 'md5'
 export default React.createClass({
     getInitialState: function(){
         return {
-            salt: ''
+            salt: '',
+            msg: ''
         }
     },
     onSubmit: function(){
@@ -24,7 +25,7 @@ export default React.createClass({
             params.append('auth', auth)
             Http.post('/ajax/login', params).then((data)=>{
                 if(data.code == 0){
-                    alert('账号或密码错误！')
+                    this.setState({msg: '账号或密码错误！'})
                 }else{
                     this.props.router.replace('/')
                 }
@@ -44,6 +45,9 @@ export default React.createClass({
                             </div>
                             <div className="input-group">
                                 <input type="password" className="form-control" ref="password" placeholder="密码" />
+                            </div>
+                            <div className="input-group" style={{display: this.state.msg.length > 0 ? 'block' : 'none'}}>
+                                <span className="warning">{ this.state.msg }</span>
                             </div>
                             <div className="input-group">
                                 <button type="submit" className="btn btn-primary">登录</button>

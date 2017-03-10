@@ -11,3 +11,6 @@
 .login-container .input-group .btn {
   width: 100%;
 }
+.login-container .input-group .warning {
+  color: red;
+}

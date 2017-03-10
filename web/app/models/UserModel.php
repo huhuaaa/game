@@ -3,7 +3,7 @@ use Phalcon\Mvc\Model\Behavior\SoftDelete;
 
 class UserModel extends Phalcon\Mvc\Model {
 
-    protected $id; //用户ID
+    public $id; //用户ID
     public $username;
     protected $password; //密码加密串
     public $salt; //密码混淆加密串

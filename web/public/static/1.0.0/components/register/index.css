@@ -11,3 +11,6 @@
 .register-container .input-group .btn {
   width: 100%;
 }
+.register-container .input-group .warning {
+  color: red;
+}

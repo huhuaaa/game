@@ -34,7 +34,8 @@ define('components/login/index.jsx', function(require, exports, module) {
   
       getInitialState: function getInitialState() {
           return {
-              salt: ''
+              salt: '',
+              msg: ''
           };
       },
       onSubmit: function onSubmit() {
@@ -50,7 +51,7 @@ define('components/login/index.jsx', function(require, exports, module) {
               params.append('auth', auth);
               _commonHttp2['default'].post('/ajax/login', params).then(function (data) {
                   if (data.code == 0) {
-                      alert('账号或密码错误！');
+                      _this.setState({ msg: '账号或密码错误！' });
                   } else {
                       _this.props.router.replace('/');
                   }
@@ -85,6 +86,15 @@ define('components/login/index.jsx', function(require, exports, module) {
                               'div',
                               { className: 'input-group' },
                               _react2['default'].createElement('input', { type: 'password', className: 'form-control', ref: 'password', placeholder: '密码' })
+                          ),
+                          _react2['default'].createElement(
+                              'div',
+                              { className: 'input-group', style: { display: this.state.msg.length > 0 ? 'block' : 'none' } },
+                              _react2['default'].createElement(
+                                  'span',
+                                  { className: 'warning' },
+                                  this.state.msg
+                              )
                           ),
                           _react2['default'].createElement(
                               'div',

@@ -16,18 +16,26 @@ class RegisterController extends \Controller {
         if($auth == $this->session->get('registerAuth')){
             if(preg_match_all('/^[a-z]([0-9a-z_]{3,19})$/', $username)){
                 if(strlen($password) > 5){
-                    $user = new \UserModel();
-                    $user->username = $username;
-                    $user->id = \UserModel::createUserid();
-                    $salt = \UserModel::createSalt();
-                    $user->setPassword(md5($salt.$password.$salt));
-                    $user->salt = $salt;
-                    $user->nickname = $nickname;
-                    if($user->save()){
-                        $success = TRUE;
-                        $this->setLoginUser($user);
+                    $user = \UserModel::findFirst(Array(
+                        'conditions' => 'username = ?1',
+                        'bind' => Array('1'=>$username)
+                    ));
+                    if(empty($user)){
+                        $user = new \UserModel();
+                        $user->username = $username;
+                        $user->id = \UserModel::createUserid();
+                        $salt = \UserModel::createSalt();
+                        $user->setPassword(md5($salt.$password.$salt));
+                        $user->salt = $salt;
+                        $user->nickname = $nickname;
+                        if($user->save()){
+                            $success = TRUE;
+                            $this->setLoginUser($user);
+                        }else{
+                            $msg = '注册失败，请重试！';
+                        }
                     }else{
-                        $msg = '注册失败，请重试！';
+                        $msg = '用户名已经存在！';
                     }
                 }else{
                     $msg = '密码长度不符合要求！';

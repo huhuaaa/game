@@ -3,19 +3,30 @@ import {Link} from 'react-router'
 import Http from '/common/http'
 import Header from '../common/header'
 export default React.createClass({
+    getInitialState: function(){
+        return {
+            msg: ''
+        }
+    },
     onSubmit: function(){
         let username = this.refs.username.value
         let password = this.refs.password.value
         if(username.length < 4){
-            alert('用户名不能少于4个字符！')
+            this.setState({
+                msg: '用户名不能少于4个字符！'
+            })
             return
         }
         if(password.length < 6){
-            alert('密码不少于六位！')
+            this.setState({
+                msg: '密码不少于六位！'
+            })
             return
         }
         if(password != this.refs.pwd.value){
-            alert('两次密码不一致！')
+            this.setState({
+                msg: '两次密码不一致！'
+            })
             return
         }
         var params = new URLSearchParams();
@@ -26,7 +37,9 @@ export default React.createClass({
                 // 跳转去大厅
                 this.props.router.go('/hall')
             }else{
-                alert(result.msg)
+                this.setState({
+                    msg: result.msg
+                })
             }
         })
     },
@@ -46,6 +59,9 @@ export default React.createClass({
                             </div>
                             <div className="input-group">
                                 <input type="password" className="form-control" ref="pwd" placeholder="确认密码" />
+                            </div>
+                            <div className="input-group" style={{display: this.state.msg.length > 0 ? 'block' : 'none'}}>
+                                <span className="warning">{ this.state.msg }</span>
                             </div>
                             <div className="input-group">
                                 <button type="submit" className="btn btn-primary">注册</button>

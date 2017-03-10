@@ -25,21 +25,32 @@ define('components/register/index.jsx', function(require, exports, module) {
   exports['default'] = _react2['default'].createClass({
       displayName: 'index',
   
+      getInitialState: function getInitialState() {
+          return {
+              msg: ''
+          };
+      },
       onSubmit: function onSubmit() {
           var _this = this;
   
           var username = this.refs.username.value;
           var password = this.refs.password.value;
           if (username.length < 4) {
-              alert('用户名不能少于4个字符！');
+              this.setState({
+                  msg: '用户名不能少于4个字符！'
+              });
               return;
           }
           if (password.length < 6) {
-              alert('密码不少于六位！');
+              this.setState({
+                  msg: '密码不少于六位！'
+              });
               return;
           }
           if (password != this.refs.pwd.value) {
-              alert('两次密码不一致！');
+              this.setState({
+                  msg: '两次密码不一致！'
+              });
               return;
           }
           var params = new URLSearchParams();
@@ -50,7 +61,9 @@ define('components/register/index.jsx', function(require, exports, module) {
                   // 跳转去大厅
                   _this.props.router.go('/hall');
               } else {
-                  alert(result.msg);
+                  _this.setState({
+                      msg: result.msg
+                  });
               }
           });
       },
@@ -87,6 +100,15 @@ define('components/register/index.jsx', function(require, exports, module) {
                               'div',
                               { className: 'input-group' },
                               _react2['default'].createElement('input', { type: 'password', className: 'form-control', ref: 'pwd', placeholder: '确认密码' })
+                          ),
+                          _react2['default'].createElement(
+                              'div',
+                              { className: 'input-group', style: { display: this.state.msg.length > 0 ? 'block' : 'none' } },
+                              _react2['default'].createElement(
+                                  'span',
+                                  { className: 'warning' },
+                                  this.state.msg
+                              )
                           ),
                           _react2['default'].createElement(
                               'div',
